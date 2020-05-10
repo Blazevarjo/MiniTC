@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="MiniTC.Controls.PanelTC"
+             x:Name="PanelTCControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MiniTC.Controls"
+             xmlns:resx="clr-namespace:MiniTC.Properties"
+             mc:Ignorable="d" 
+             d:DesignHeight="800" d:DesignWidth="400">
+    <StackPanel Margin="5">
+        <StackPanel Margin="10" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Label Content="{Binding Source={x:Static resx:Resources.PathLabel}}"/>
+            <TextBlock Text="{Binding CurrentPath,ElementName=PanelTCControl}"/>
+        </StackPanel>
+        <StackPanel Margin="10" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Label Content="{Binding Source={x:Static resx:Resources.DriveLabel}}"/>
+            <ComboBox ItemsSource="{Binding AvailableDrives,ElementName=PanelTCControl}" SelectedItem="{Binding SelectedDrive,ElementName=PanelTCControl}"/>
+        </StackPanel>
+        <ListBox Height="500" SelectionMode="Single" ItemsSource="{Binding CurrentPathContent,ElementName=PanelTCControl}" SelectedItem="{Binding SelectedPath,ElementName=PanelTCControl,Mode=TwoWay}"/>
+    </StackPanel>
+</UserControl>

@@ -4,9 +4,34 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MiniTC"
+        xmlns:vm="clr-namespace:MiniTC.ViewModel"
+        xmlns:resx="clr-namespace:MiniTC.Properties"
+        xmlns:controls="clr-namespace:MiniTC.Controls"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="900" Width="1000">
+    <Window.Resources>
+        <vm:MainViewModel x:Key="mainViewModel"/>
+        <vm:PanelTCViewModel x:Key="panelTcViewModel"/>
+    </Window.Resources>
+
+
+
     <Grid>
-        
+        <Grid.DataContext>
+            <vm:MainViewModel/>
+        </Grid.DataContext>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="9*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <controls:PanelTC Grid.Column="0" CurrentPath="{Binding Source.CurrentPath}" AvailableDrives="{Binding Source.AvailableDrives}" CurrentPathContent="{Binding Source.CurrentPathContent}" SelectedPath="{Binding Source.SelectedPath}" SelectedDrive="{Binding Source.SelectedDrive,Mode=TwoWay}"/>
+            <controls:PanelTC Grid.Column="1" CurrentPath="{Binding Target.CurrentPath}" AvailableDrives="{Binding Target.AvailableDrives}" CurrentPathContent="{Binding Target.CurrentPathContent}" SelectedPath="{Binding Target.SelectedPath}" SelectedDrive="{Binding Target.SelectedDrive,Mode=TwoWay}"/>
+        </Grid>
+        <Button x:Name="SaveButton" Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Center" Height="50" Width="150" Margin="10" FontSize="28" Content="{Binding Source={x:Static resx:Resources.ContentCopyButton}}" Command="{Binding Copy}"/>
     </Grid>
 </Window>
