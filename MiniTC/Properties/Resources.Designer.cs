@@ -88,6 +88,24 @@ namespace MiniTC.Properties {
         }
         
         /// <summary>
+        /// Wyszukuje zlokalizowany ciąg podobny do ciągu Copy.
+        /// </summary>
+        public static string FileCopy {
+            get {
+                return ResourceManager.GetString("FileCopy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        /// Wyszukuje zlokalizowany ciąg podobny do ciągu ....
+        /// </summary>
+        public static string ParentDirectory {
+            get {
+                return ResourceManager.GetString("ParentDirectory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         /// Wyszukuje zlokalizowany ciąg podobny do ciągu Path.
         /// </summary>
         public static string PathLabel {

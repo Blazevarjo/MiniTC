@@ -85,12 +85,13 @@ namespace MiniTC.ViewModel
         #region Auxiliary functions
         private void EnterDirectory()
         {
+            if (SelectedPath == null) return;
             if (SelectedPath.StartsWith(Resources.DriveSign))
             {
                 CurrentPath = Path.Combine(CurrentPath, SelectedPath.Substring(4));
                 UpdateCurrentPathContent();
             }
-            else if (SelectedPath == "...")
+            else if (SelectedPath == Resources.ParentDirectory)
             {
                 CurrentPath = Path.GetDirectoryName(CurrentPath);
                 UpdateCurrentPathContent();
@@ -101,56 +102,62 @@ namespace MiniTC.ViewModel
             AvailableDrives = new ObservableCollection<string>(Directory.GetLogicalDrives().ToList());
         }
 
-        private void UpdateCurrentPathContent()
-        {
-            CurrentPathContent.Clear();
-            if (!AvailableDrives.Contains(CurrentPath))
-            {
-                CurrentPathContent.Add("...");
-            }
-            foreach (var dir in GetDirectories())
-            {
-                CurrentPathContent.Add(Resources.DriveSign + Path.GetFileName(dir));
-            }
-            foreach (var file in GetFiles())
-            {
-                CurrentPathContent.Add(Path.GetFileName(file));
-            }
-        }
-
         // 2 Functions which eliminates chance of getting files or directories which we don't have access to
-
-        private List<string> GetFiles()
+        private List<string> GetFiles(string path)
         {
             var files = new List<string>();
             try
             {
-                foreach(var file in Directory.GetFiles(CurrentPath))
+                foreach (var file in Directory.GetFiles(path))
                 {
                     files.Add(file);
                 }
-            } catch(UnauthorizedAccessException e)
+            }
+            catch (UnauthorizedAccessException e)
             {
                 Console.WriteLine(e.Message);
             }
             return files;
         }
 
-        private List<string> GetDirectories()
+        private List<string> GetDirectories(string path)
         {
             var directories = new List<string>();
             try
             {
-                foreach(var directory in Directory.GetDirectories(CurrentPath))
+                foreach (var directory in Directory.GetDirectories(path))
                 {
                     directories.Add(directory);
                 }
-            } catch(UnauthorizedAccessException e)
+            }
+            catch (UnauthorizedAccessException e)
             {
                 Console.WriteLine(e.Message);
             }
             return directories;
         }
+
+        public void UpdateCurrentPathContent()
+        {
+            CurrentPathContent.Clear();
+            if (!AvailableDrives.Contains(CurrentPath))
+            {
+                CurrentPathContent.Add(Resources.ParentDirectory);
+            }
+            foreach (var dir in GetDirectories(CurrentPath))
+            {
+                CurrentPathContent.Add(Resources.DriveSign + Path.GetFileName(dir));
+            }
+            foreach (var file in GetFiles(CurrentPath))
+            {
+                CurrentPathContent.Add(Path.GetFileName(file));
+            }
+        }
+
+        public string GetCorrectSelectedPath() => SelectedPath.StartsWith(Resources.DriveSign) ? SelectedPath.Substring(Resources.DriveSign.Length) : SelectedPath;
+
+        public void RaiseContentChange() => OnPropertyChanged(nameof(CurrentPathContent));
+        
         #endregion
     }
 }

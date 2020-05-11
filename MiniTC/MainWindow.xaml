@@ -30,12 +30,12 @@
             </Grid.ColumnDefinitions>
             
             <controls:PanelTC Grid.Column="0" CurrentPath="{Binding LeftPanel.CurrentPath}" AvailableDrives="{Binding LeftPanel.AvailableDrives}" 
-                              CurrentPathContent="{Binding LeftPanel.CurrentPathContent}" SelectedPath="{Binding LeftPanel.SelectedPath,Mode=TwoWay}" 
+                              CurrentPathContent="{Binding LeftPanel.CurrentPathContent,Mode=TwoWay}" SelectedPath="{Binding LeftPanel.SelectedPath,Mode=TwoWay}" 
                               SelectedDrive="{Binding LeftPanel.SelectedDrive,Mode=TwoWay}" DropDownOpen="{Binding LeftPanel.DropDownOpen}" 
                               SelectionChange="{Binding LeftSelectionChange}" ItemDoubleClick="{Binding LeftPanel.ItemDoubleClick}" ItemEnterKey="{Binding LeftPanel.ItemEnterKey}"/>
             
             <controls:PanelTC Grid.Column="1" CurrentPath="{Binding RightPanel.CurrentPath}" AvailableDrives="{Binding RightPanel.AvailableDrives}" 
-                              CurrentPathContent="{Binding RightPanel.CurrentPathContent}" SelectedPath="{Binding RightPanel.SelectedPath,Mode=TwoWay}" 
+                              CurrentPathContent="{Binding RightPanel.CurrentPathContent,Mode=TwoWay}" SelectedPath="{Binding RightPanel.SelectedPath,Mode=TwoWay}" 
                               SelectedDrive="{Binding RightPanel.SelectedDrive,Mode=TwoWay}" DropDownOpen="{Binding RightPanel.DropDownOpen}" 
                               SelectionChange="{Binding RightSelectionChange}" ItemDoubleClick="{Binding RightPanel.ItemDoubleClick}" ItemEnterKey="{Binding RightPanel.ItemEnterKey}"/>
             
