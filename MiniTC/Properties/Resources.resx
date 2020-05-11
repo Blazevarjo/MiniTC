@@ -118,10 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ContentCopyButton" xml:space="preserve">
-    <value>Copy &gt;&gt;</value>
+    <value>Copy</value>
   </data>
   <data name="DriveLabel" xml:space="preserve">
     <value>Drive</value>
+  </data>
+  <data name="DriveSign" xml:space="preserve">
+    <value>&lt;D&gt; </value>
   </data>
   <data name="PathLabel" xml:space="preserve">
     <value>Path</value>

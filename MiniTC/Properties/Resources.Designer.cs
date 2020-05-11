@@ -61,7 +61,7 @@ namespace MiniTC.Properties {
         }
         
         /// <summary>
-        /// Wyszukuje zlokalizowany ciąg podobny do ciągu Copy &gt;&gt;.
+        /// Wyszukuje zlokalizowany ciąg podobny do ciągu Copy.
         /// </summary>
         public static string ContentCopyButton {
             get {
@@ -75,6 +75,15 @@ namespace MiniTC.Properties {
         public static string DriveLabel {
             get {
                 return ResourceManager.GetString("DriveLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        /// Wyszukuje zlokalizowany ciąg podobny do ciągu &lt;D&gt; .
+        /// </summary>
+        public static string DriveSign {
+            get {
+                return ResourceManager.GetString("DriveSign", resourceCulture);
             }
         }
         

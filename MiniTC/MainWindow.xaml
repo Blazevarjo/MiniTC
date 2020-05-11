@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:local="clr-namespace:MiniTC"
         xmlns:vm="clr-namespace:MiniTC.ViewModel"
         xmlns:resx="clr-namespace:MiniTC.Properties"
@@ -11,10 +12,7 @@
         Title="MainWindow" Height="900" Width="1000">
     <Window.Resources>
         <vm:MainViewModel x:Key="mainViewModel"/>
-        <vm:PanelTCViewModel x:Key="panelTcViewModel"/>
     </Window.Resources>
-
-
 
     <Grid>
         <Grid.DataContext>
@@ -24,14 +22,25 @@
             <RowDefinition Height="9*"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
+        
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
-            <controls:PanelTC Grid.Column="0" CurrentPath="{Binding Source.CurrentPath}" AvailableDrives="{Binding Source.AvailableDrives}" CurrentPathContent="{Binding Source.CurrentPathContent}" SelectedPath="{Binding Source.SelectedPath}" SelectedDrive="{Binding Source.SelectedDrive,Mode=TwoWay}"/>
-            <controls:PanelTC Grid.Column="1" CurrentPath="{Binding Target.CurrentPath}" AvailableDrives="{Binding Target.AvailableDrives}" CurrentPathContent="{Binding Target.CurrentPathContent}" SelectedPath="{Binding Target.SelectedPath}" SelectedDrive="{Binding Target.SelectedDrive,Mode=TwoWay}"/>
+            
+            <controls:PanelTC Grid.Column="0" CurrentPath="{Binding LeftPanel.CurrentPath}" AvailableDrives="{Binding LeftPanel.AvailableDrives}" 
+                              CurrentPathContent="{Binding LeftPanel.CurrentPathContent}" SelectedPath="{Binding LeftPanel.SelectedPath,Mode=TwoWay}" 
+                              SelectedDrive="{Binding LeftPanel.SelectedDrive,Mode=TwoWay}" DropDownOpen="{Binding LeftPanel.DropDownOpen}" 
+                              SelectionChange="{Binding LeftSelectionChange}" ItemDoubleClick="{Binding LeftPanel.ItemDoubleClick}" ItemEnterKey="{Binding LeftPanel.ItemEnterKey}"/>
+            
+            <controls:PanelTC Grid.Column="1" CurrentPath="{Binding RightPanel.CurrentPath}" AvailableDrives="{Binding RightPanel.AvailableDrives}" 
+                              CurrentPathContent="{Binding RightPanel.CurrentPathContent}" SelectedPath="{Binding RightPanel.SelectedPath,Mode=TwoWay}" 
+                              SelectedDrive="{Binding RightPanel.SelectedDrive,Mode=TwoWay}" DropDownOpen="{Binding RightPanel.DropDownOpen}" 
+                              SelectionChange="{Binding RightSelectionChange}" ItemDoubleClick="{Binding RightPanel.ItemDoubleClick}" ItemEnterKey="{Binding RightPanel.ItemEnterKey}"/>
+            
         </Grid>
-        <Button x:Name="SaveButton" Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Center" Height="50" Width="150" Margin="10" FontSize="28" Content="{Binding Source={x:Static resx:Resources.ContentCopyButton}}" Command="{Binding Copy}"/>
+        <Button x:Name="SaveButton" Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Center" Height="50" Width="150" Margin="10" FontSize="28" 
+                Content="{Binding Source={x:Static resx:Resources.ContentCopyButton}}" Command="{Binding Copy}"/>
     </Grid>
 </Window>

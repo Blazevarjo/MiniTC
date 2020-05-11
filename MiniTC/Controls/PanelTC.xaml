@@ -4,19 +4,47 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:MiniTC.Controls"
              xmlns:resx="clr-namespace:MiniTC.Properties"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="400">
     <StackPanel Margin="5">
+        
         <StackPanel Margin="10" Orientation="Horizontal" HorizontalAlignment="Right">
             <Label Content="{Binding Source={x:Static resx:Resources.PathLabel}}"/>
-            <TextBlock Text="{Binding CurrentPath,ElementName=PanelTCControl}"/>
+          
+            <TextBox VerticalContentAlignment="Center" IsReadOnly="True" Width="300" Text="{Binding CurrentPath,ElementName=PanelTCControl}"/>
         </StackPanel>
+        
         <StackPanel Margin="10" Orientation="Horizontal" HorizontalAlignment="Right">
             <Label Content="{Binding Source={x:Static resx:Resources.DriveLabel}}"/>
-            <ComboBox ItemsSource="{Binding AvailableDrives,ElementName=PanelTCControl}" SelectedItem="{Binding SelectedDrive,ElementName=PanelTCControl}"/>
+            
+            <ComboBox ItemsSource="{Binding AvailableDrives,ElementName=PanelTCControl}" SelectedItem="{Binding SelectedDrive,ElementName=PanelTCControl}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="DropDownOpened">
+                        <i:InvokeCommandAction Command="{Binding DropDownOpen, ElementName=PanelTCControl}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </ComboBox>
         </StackPanel>
-        <ListBox Height="500" SelectionMode="Single" ItemsSource="{Binding CurrentPathContent,ElementName=PanelTCControl}" SelectedItem="{Binding SelectedPath,ElementName=PanelTCControl,Mode=TwoWay}"/>
+        
+        <ListBox Height="600" SelectionMode="Single" ItemsSource="{Binding CurrentPathContent,ElementName=PanelTCControl}" SelectedItem="{Binding SelectedPath,ElementName=PanelTCControl}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding SelectionChange,ElementName=PanelTCControl}"/>
+                </i:EventTrigger>
+                
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <i:InvokeCommandAction Command="{Binding ItemDoubleClick,ElementName=PanelTCControl}"/>
+                </i:EventTrigger>
+                
+                <i:KeyTrigger Key="Enter">
+                    <i:InvokeCommandAction Command="{Binding ItemEnterKey,ElementName=PanelTCControl}"/>
+                </i:KeyTrigger>
+            </i:Interaction.Triggers>
+        </ListBox>
+        
     </StackPanel>
+
 </UserControl>
