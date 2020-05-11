@@ -5,7 +5,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-             xmlns:local="clr-namespace:MiniTC.Controls"
              xmlns:resx="clr-namespace:MiniTC.Properties"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="400">
@@ -14,7 +13,7 @@
         <StackPanel Margin="10" Orientation="Horizontal" HorizontalAlignment="Right">
             <Label Content="{Binding Source={x:Static resx:Resources.PathLabel}}"/>
           
-            <TextBox VerticalContentAlignment="Center" IsReadOnly="True" Width="300" Text="{Binding CurrentPath,ElementName=PanelTCControl}"/>
+            <TextBox VerticalContentAlignment="Center" IsReadOnly="True" Width="400" Text="{Binding CurrentPath,ElementName=PanelTCControl}"/>
         </StackPanel>
         
         <StackPanel Margin="10" Orientation="Horizontal" HorizontalAlignment="Right">

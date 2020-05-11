@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 namespace MiniTC.ViewModel
 {
@@ -155,8 +153,6 @@ namespace MiniTC.ViewModel
         }
 
         public string GetCorrectSelectedPath() => SelectedPath.StartsWith(Resources.DriveSign) ? SelectedPath.Substring(Resources.DriveSign.Length) : SelectedPath;
-
-        public void RaiseContentChange() => OnPropertyChanged(nameof(CurrentPathContent));
         
         #endregion
     }

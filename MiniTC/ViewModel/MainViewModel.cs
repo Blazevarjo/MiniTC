@@ -4,6 +4,7 @@ namespace MiniTC.ViewModel
 {
     using BaseClass;
     using MiniTC.Properties;
+    using System.Globalization;
     using System.IO;
     using System.Linq;
     using System.Windows.Input;
@@ -29,6 +30,7 @@ namespace MiniTC.ViewModel
         #region Constructors
         public MainViewModel()
         {
+            //System.Threading.Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US"); // Default is English
             _leftPanel = new PanelTCViewModel();
             _rightPanel = new PanelTCViewModel();
 
@@ -47,66 +49,105 @@ namespace MiniTC.ViewModel
         {
             string source = "";
             string target = "";
-            if(LeftPanel.SelectedPath != null)
+            if (LeftPanel.SelectedPath != null)
             {
                 source = Path.Combine(LeftPanel.CurrentPath, LeftPanel.GetCorrectSelectedPath());
                 target = Path.GetFullPath(RightPanel.CurrentPath);
             }
-            else if(RightPanel.SelectedPath != null)
+            else if (RightPanel.SelectedPath != null)
             {
-                source = Path.Combine(RightPanel.CurrentPath,RightPanel.GetCorrectSelectedPath());
+                source = Path.Combine(RightPanel.CurrentPath, RightPanel.GetCorrectSelectedPath());
                 target = Path.GetFullPath(LeftPanel.CurrentPath);
             }
-            Console.WriteLine($"source: {source}\ntarget: {target}\n");
-
+            
             //checking if path is directory or file
             var attribute = File.GetAttributes(source);
             if (attribute.HasFlag(FileAttributes.Directory))
             {
-                foreach (var  item in Directory.GetFiles(target))
-                {
-                    Console.WriteLine(item);
-                }
+                target = Path.Combine(target, Path.GetFileName(source));
+                DirectoryCopy(source, target);
             }
             else
             {
-                if (Directory.GetFiles(target).Select(x => Path.GetFileName(x)).Contains(Path.GetFileName(source)))
-                {
-                    int count = Directory.GetFiles(target).Select(x => Path.GetFileName(x)).Where(x => x.StartsWith(Path.GetFileNameWithoutExtension(source))).Count();
-                    string fileName = Path.GetFileNameWithoutExtension(source) + " - " + Resources.FileCopy + count + Path.GetExtension(source);
-                    target = Path.Combine(target, fileName);
-                }
-                else
-                {
-                    target += Path.GetFileName(source);
-                }
-                File.Copy(source, target);
+                FileCopy(source, target);
             }
             UpdateCurrentPathContents();
         }
 
         private bool CopyCanExecute(object obj)
         {
-            return LeftPanel.SelectedPath != null || RightPanel.SelectedPath != null;
+            if (LeftPanel.SelectedPath == null && RightPanel.SelectedPath == null) return false;
+            if (LeftPanel.SelectedPath == Resources.ParentDirectory || RightPanel.SelectedPath == Resources.ParentDirectory) return false;
+            return true;
         }
 
         private void LeftSelectionChangeExecute(object obj)
         {
-            if(RightPanel.SelectedPath !=null && LeftPanel.SelectedPath !=null)
+            if (RightPanel.SelectedPath != null && LeftPanel.SelectedPath != null)
                 RightPanel.SelectedPath = null;
         }
 
         private void RightSelectionChangeExecute(object obj)
         {
-            if(LeftPanel.SelectedPath !=null && RightPanel.SelectedPath != null)
+            if (LeftPanel.SelectedPath != null && RightPanel.SelectedPath != null)
                 LeftPanel.SelectedPath = null;
         }
         #endregion
 
+        #region Auxiliary functions
         private void UpdateCurrentPathContents()
         {
             LeftPanel.UpdateCurrentPathContent();
             RightPanel.UpdateCurrentPathContent();
         }
+
+        private void FileCopy(string source, string target)
+        {
+            if (Directory.GetFiles(target).Select(x => Path.GetFileName(x)).Contains(Path.GetFileName(source)))
+            {
+                int count = Directory.GetFiles(target).Select(x => Path.GetFileName(x)).Where(x => x.StartsWith(Path.GetFileNameWithoutExtension(source))).Count();
+                string fileName = Path.GetFileNameWithoutExtension(source) + " - " + Resources.FileCopy + count + Path.GetExtension(source);
+                target = Path.Combine(target, fileName);
+            }
+            else
+            {
+                target = Path.Combine(target, Path.GetFileName(source));
+            }
+            File.Copy(source, target);
+        }
+
+        private void DirectoryCopy(string source, string target)
+        {
+            var dir = new DirectoryInfo(source);
+            if (!dir.Exists)
+                throw new DirectoryNotFoundException();
+            DirectoryInfo[] dirs;
+            try
+            {
+                 dirs = dir.GetDirectories();
+            }
+            catch (UnauthorizedAccessException) { return; }
+
+            if (!Directory.Exists(target))
+                Directory.CreateDirectory(target);
+            else
+            {
+                int count = Directory.GetDirectories(Directory.GetDirectoryRoot(target)).Where(x => x.StartsWith(target)).Count();
+                target = Path.Combine(Path.GetDirectoryName(target), Path.GetFileNameWithoutExtension(target) + " - " + Resources.FileCopy + count);
+                Directory.CreateDirectory(target);
+            }
+            var files = dir.GetFiles();
+            foreach (var file in files)
+            {
+                string path = Path.Combine(target, file.Name);
+                file.CopyTo(path);
+            }
+            foreach (var subdir in dirs)
+            {
+                string path = Path.Combine(target, subdir.Name);
+                DirectoryCopy(subdir.FullName, path);
+            }
+        }
+        #endregion
     }
 }
