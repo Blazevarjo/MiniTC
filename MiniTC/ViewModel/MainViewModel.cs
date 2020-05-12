@@ -59,7 +59,7 @@ namespace MiniTC.ViewModel
                 source = Path.Combine(RightPanel.CurrentPath, RightPanel.GetCorrectSelectedPath());
                 target = Path.GetFullPath(LeftPanel.CurrentPath);
             }
-            
+
             //checking if path is directory or file
             var attribute = File.GetAttributes(source);
             if (attribute.HasFlag(FileAttributes.Directory))
@@ -113,7 +113,11 @@ namespace MiniTC.ViewModel
             {
                 target = Path.Combine(target, Path.GetFileName(source));
             }
-            File.Copy(source, target);
+            try
+            {
+                File.Copy(source, target);
+            }
+            catch (UnauthorizedAccessException) { return; }
         }
 
         private void DirectoryCopy(string source, string target)
@@ -124,7 +128,7 @@ namespace MiniTC.ViewModel
             DirectoryInfo[] dirs;
             try
             {
-                 dirs = dir.GetDirectories();
+                dirs = dir.GetDirectories();
             }
             catch (UnauthorizedAccessException) { return; }
 
