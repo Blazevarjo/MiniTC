@@ -63,6 +63,7 @@
     <Compile Include="Controls\PanelTC.xaml.cs">
       <DependentUpon>PanelTC.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Model\CopyingModel.cs" />
     <Compile Include="Properties\Resources.pl-PL.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

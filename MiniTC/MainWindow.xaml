@@ -7,7 +7,7 @@
         xmlns:resx="clr-namespace:MiniTC.Properties"
         xmlns:controls="clr-namespace:MiniTC.Controls"
         mc:Ignorable="d"
-        Title="MainWindow" Height="820" Width="1000">
+        Title="MainWindow" Height="820" Width="1000" ResizeMode="CanMinimize">
     <Window.Resources>
         <vm:MainViewModel x:Key="mainViewModel"/>
     </Window.Resources>
